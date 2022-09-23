@@ -1,8 +1,11 @@
 ---
-title: "Homework 1 -- dxy2101"
+title: "P8105 Homework 1"
+author: "dxy2101"
+date: "September 24th, 2022"
 output: github_document
 ---
 
+This assignment focuses on getting started with R, best practices, and working in Github.
 
 ```{r setup1}
 library(tidyverse)
@@ -22,9 +25,8 @@ data("penguins", package = "palmerpenguins")
 # List variables in dataset
 names(penguins)
 
-# Size of dataset
-nrow(penguins)
-ncol(penguins)
+nrow(penguins) # Number of observations
+ncol(penguins) # Number of variables
 
 # Calculate mean flipper length
 mean(penguins$flipper_length_mm, na.rm=TRUE)
@@ -61,3 +63,44 @@ ggplot(plot_df, aes(x=x, y=y, color=Species)) + geom_point()
 # Export scatter plot
 ggsave("bill_flipper_plot.pdf", height = 4, width = 6)
 ```
+
+# Problem 2
+
+### Create a new data frame.
+
+```{r new df}
+prob2_df = tibble(
+  vec_numeric = rnorm(10), # random sample of 10 N(0,1)
+  
+  vec_logical = vec_numeric > 0, # indicate whether elements of sample > 0
+  
+  vec_character = c("How", "are", "you", "doing", "I", "hope", "you",
+                    "are", "doing", "well"), # character vector of length 10
+  
+  vec_factor = factor(c("yellow", "red", "blue", "yellow", "red", "blue",
+                        "yellow", "red", "blue", "yellow")) # factor with 3 levels + length 10
+)
+```
+
+Try to take the mean of each variable.
+
+```{r mean}
+mean(pull(prob2_df, vec_numeric)) # take mean of numeric vector
+mean(pull(prob2_df, vec_logical)) # take mean of logical vector
+mean(pull(prob2_df, vec_character)) # take mean of character vector
+mean(pull(prob2_df, vec_factor)) # take mean of factor vector
+```
+
+Taking the mean of `vec_numeric` and `vec_logical` return a value. Taking the mean of `vec_character` and `vec_factor` is non-applicable.
+
+### Convert all variables to numeric.
+
+```{r as.numeric, eval = FALSE}
+as.numeric(pull(prob2_df, vec_logical)) # convert vec_logical to numeric
+as.numeric(pull(prob2_df, vec_character)) # convert vec_character to numeric
+as.numeric(pull(prob2_df, vec_factor)) # convert vec_factor to numeric
+```
+
+Converting `vec_logical` to numeric resulted in a binary numeric output (i.e. 1, 0). 1 indicating TRUE and 0 indicating FALSE. Converting `vec_character` to numeric resulted in outputs that were also listed as NA. Converting `vec_factor`to numeric resulted in three types of numeric outputs (i.e. 1, 2, 3) to match the three different levels.
+
+The binary nature of `vec_logical` explains the numeric output after taking its mean. However, this does not explain why the same could not happen for `vec_factor`.
