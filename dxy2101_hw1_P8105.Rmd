@@ -7,11 +7,11 @@ output: github_document
 
 This assignment focuses on getting started with R, best practices, and working in Github.
 
-```{r setup1}
+```{r setup1, message=FALSE}
 library(tidyverse)
 ```
 
-```{r setup2}
+```{r setup2, message=FALSE}
 install.packages("palmerpenguins", repos = "http://cran.us.r-project.org")
 ```
 
@@ -24,31 +24,26 @@ data("penguins", package = "palmerpenguins")
 
 # List variables in dataset
 names(penguins)
-
-nrow(penguins) # Number of observations
-ncol(penguins) # Number of variables
-
-# Calculate mean flipper length
-mean(penguins$flipper_length_mm, na.rm=TRUE)
 ```
 
-The `penguins` dataset includes 8 variables describing a sample of 344 individual penguins. This dataset may be useful for understanding the different compositions of different penguin species across e.g. geographies, years, sex, and among the physical attributes themselves. 
+The `penguins` dataset includes `r ncol(penguins)` variables describing a sample of `r nrow(penguins)` individual penguins. This dataset may be useful for understanding the different compositions of different penguin species across e.g. geographies, years, sex, and among the physical attributes themselves. 
 
 The following variables are included:
-* species
-* island of origin
-* bill length (mm)
-* bill depth (mm)
-* flipper length (mm)
-* body mass (g)
-* sex
-* year data was collected
 
-From `penguins`, we found that the mean flipper length, excluding missing values, is 200.9152 mm.
+*  species
+*  island of origin
+*  bill length (mm)
+*  bill depth (mm)
+*  flipper length (mm)
+*  body mass (g)
+*  sex
+*  year data was collected
+
+From `penguins`, we found that the mean flipper length, excluding missing values, is `r round(mean(penguins$flipper_length_mm, na.rm=TRUE), 2)` mm.
 
 ### Create scatterplot for flipper length and bill length
 
-```{r scatterplot}
+```{r scatterplot, warning=FALSE}
 # Create a dataframe containing variables for the plot
 plot_df = tibble(
   x = penguins$bill_length_mm,
@@ -91,7 +86,7 @@ mean(pull(prob2_df, vec_character)) # take mean of character vector
 mean(pull(prob2_df, vec_factor)) # take mean of factor vector
 ```
 
-Taking the mean of `vec_numeric` and `vec_logical` return a value. Taking the mean of `vec_character` and `vec_factor` is non-applicable.
+Taking the mean of `vec_numeric` and `vec_logical` returned a value. Taking the mean of `vec_character` and `vec_factor` is non-applicable.
 
 ### Convert all variables to numeric.
 
@@ -103,4 +98,4 @@ as.numeric(pull(prob2_df, vec_factor)) # convert vec_factor to numeric
 
 Converting `vec_logical` to numeric resulted in a binary numeric output (i.e. 1, 0). 1 indicating TRUE and 0 indicating FALSE. Converting `vec_character` to numeric resulted in outputs that were also listed as NA. Converting `vec_factor`to numeric resulted in three types of numeric outputs (i.e. 1, 2, 3) to match the three different levels.
 
-The binary nature of `vec_logical` explains the numeric output after taking its mean. However, this does not explain why the same could not happen for `vec_factor`.
+The binary nature of `vec_logical` explains the numeric output after taking its mean before converting it to numeric. This is built into R. However, the same could not happen for `vec_factor`.
