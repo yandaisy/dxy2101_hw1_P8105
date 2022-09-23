@@ -3,3 +3,61 @@ title: "Homework 1 -- dxy2101"
 output: github_document
 ---
 
+
+```{r setup1}
+library(tidyverse)
+```
+
+```{r setup2}
+install.packages("palmerpenguins", repos = "http://cran.us.r-project.org")
+```
+
+# Problem 1
+
+### Load and describe `penguins` dataset.
+
+```{r penguins}
+data("penguins", package = "palmerpenguins")
+
+# List variables in dataset
+names(penguins)
+
+# Size of dataset
+nrow(penguins)
+ncol(penguins)
+
+# Calculate mean flipper length
+mean(penguins$flipper_length_mm, na.rm=TRUE)
+```
+
+The `penguins` dataset includes 8 variables describing a sample of 344 individual penguins. This dataset may be useful for understanding the different compositions of different penguin species across e.g. geographies, years, sex, and among the physical attributes themselves. 
+
+The following variables are included:
+* species
+* island of origin
+* bill length (mm)
+* bill depth (mm)
+* flipper length (mm)
+* body mass (g)
+* sex
+* year data was collected
+
+From `penguins`, we found that the mean flipper length, excluding missing values, is 200.9152 mm.
+
+### Create scatterplot for flipper length and bill length
+
+```{r scatterplot}
+# Create a dataframe containing variables for the plot
+plot_df = tibble(
+  x = penguins$bill_length_mm,
+  y = penguins$flipper_length_mm
+)
+
+# Create scatter plot with colors indicating species type
+Species = penguins$species
+
+ggplot(plot_df, aes(x=x, y=y, color=Species)) + geom_point()
+
+# Export scatter plot
+ggsave("bill_flipper_plot.pdf", height = 4, width = 6)
+```
